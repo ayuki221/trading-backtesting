@@ -1,7 +1,4 @@
 def pos_size_handler(ctx):
-    """
-    每檔股票持倉上限嚴格限制為1/3總資金，不會出現all in。
-    """
     signals = list(ctx.signals())
     max_frac = 1 / 3  # 單檔最多佔總資金1/3
     for signal in signals:
