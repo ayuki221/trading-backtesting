@@ -12,7 +12,7 @@ from pybroker.common import PositionMode
 # 設定參數
 start_date = "2015-01-01"
 end_date = "2025-05-16"
-tickers = ['AAPL', 'MSFT', 'AMZN']
+tickers = ['AAPL', 'MSFT', 'AMZN']#台股則為2330.TW格式
 warmup = 20
 window_size = 30
 step = 20
