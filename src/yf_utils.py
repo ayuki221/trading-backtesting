@@ -3,11 +3,6 @@ import pandas as pd
 import yfinance as yf
 
 def load_or_download_yf_data(ticker, start, end, folder="../data_cache"):
-    """
-    從本地快取資料夾讀取個股歷史股價資料。
-    若不存在，則自動向yfinance下載後存檔再回傳。
-    PyBroker需要的欄位會自動整理補齊。
-    """
     os.makedirs(folder, exist_ok=True)
     file_path = os.path.join(folder, f"{ticker}_{start}_{end}.csv")
     if os.path.exists(file_path):
@@ -33,5 +28,5 @@ def load_or_download_yf_data(ticker, start, end, folder="../data_cache"):
         "Volume": "volume",
         "Adj Close": "adj_close"
     }, inplace=True)
-    df['symbol'] = ticker  # 必要欄位
+    df['symbol'] = ticker
     return df
