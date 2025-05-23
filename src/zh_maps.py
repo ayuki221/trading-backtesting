@@ -1,6 +1,5 @@
 import unicodedata
 
-# 指標中英文對照字典
 metrics_zh_map = {
     "trade_count": "交易次數",
     "initial_market_value": "初始資金",
@@ -76,7 +75,6 @@ positions_zh_map = {
 }
 
 def zhwidth(text):
-    """計算中英文混用字串的列印寬度，中文字為2，西文為1"""
     width = 0
     for ch in str(text):
         if unicodedata.east_asian_width(ch) in ['F', 'W', 'A']:
