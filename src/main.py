@@ -68,9 +68,8 @@ for window_start in range(0, len(date_index) - window_size, step):
     strategy.add_execution(exec_fn, tickers, models=model_ml)
     strategy.set_pos_size_handler(pos_size_handler)
     
-    # 這裡用 backtest（不是 run_backtest！）
     result = strategy.backtest(
-        warmup=20,   # 這裡已經自己手動補warmup了，所以設0（避免再多丟掉資料）
+        warmup=20,
         lookahead=1,
         train_size=0.5,
     )
