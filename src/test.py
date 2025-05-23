@@ -9,7 +9,7 @@ import pybroker
 from pybroker import Strategy, StrategyConfig
 from pybroker.common import PositionMode 
 
-# 註冊模型到 PyBroker，模型名稱命名為 'ml_model'，並將定義的技術指標一併提供給訓練函數。
+# 註冊模型到 PyBroker
 model_ml = pybroker.model('ml_model', train_ml_model, indicators=[sma_10, sma_20, rsi_14, percent_b, ret_1, ret_5])
 
 # 最多同時持有3檔股票，禁做空
@@ -18,7 +18,7 @@ config = StrategyConfig(max_long_positions=3,position_mode=PositionMode.LONG_ONL
 start_date = "2015-01-01"
 end_date = "2025-05-16"
 tickers = ['AAPL', 'MSFT', 'AMZN']
-# 合併所有股票的歷史資料，優先從本地讀取，沒有才下載
+# 合併所有股票的歷史資料，先從本地讀取
 all_data = pd.concat(
     [load_or_download_yf_data(ticker, start_date, end_date) for ticker in tickers],
     axis=0,
@@ -26,10 +26,8 @@ all_data = pd.concat(
 )
 
 strategy = Strategy(all_data, start_date=start_date, end_date=end_date, config=config)
-# 將交易邏輯和模型應用到目標股票清單
 strategy.add_execution(exec_fn, tickers, models=model_ml)
 
-# 將持倉分配處理函數註冊到策略
 strategy.set_pos_size_handler(pos_size_handler)
 
 # 執行回測（使用 walkforward 多窗口訓練/測試）
