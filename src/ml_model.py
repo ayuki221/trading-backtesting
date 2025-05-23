@@ -22,7 +22,7 @@ MODEL_PARAM_TABLE = {
     },
 }
 
-model_cls = RandomForestRegressor
+model_cls = XGBRegressor
 
 model_params = MODEL_PARAM_TABLE[model_cls]
 
