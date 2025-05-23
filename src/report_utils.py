@@ -15,11 +15,10 @@ def print_metrics_report(metrics_df, model_cls=None, model_params=None):
         pad1 = maxlen1 - zhwidth(n)
         pad2 = maxlen2 - zhwidth(v)
         print(f"{n}{' '*pad1}  {v}{' '*pad2}")
-     # == 準備這次要加入的模型名、參數字串 ==
+
     param_str = str(model_params) if model_params is not None else ""
     col_title = f"{param_str}"
 
-    # == 把結果準備成dict（指標名: value） ==
     def to_float4(x):
         try:
             f = float(x)
@@ -27,11 +26,10 @@ def print_metrics_report(metrics_df, model_cls=None, model_params=None):
         except Exception:
             return x
     result_dict = {n: to_float4(v) for n, v in zip(col1, col2)}
-    #result_dict = dict(zip(col1, col2))
 
-    # == 處理CSV append (欄位橫向新增) ==
+    # 處理CSV
     if os.path.exists(csv_path):
-        # 檔案存在，讀舊檔，用pandas合併
+        # 檔案存在，讀舊檔
         old_df = pd.read_csv(csv_path, index_col=0)
         new_colname = col_title
         # 若同模型參數已存在則自動加序號避免覆蓋
@@ -40,14 +38,12 @@ def print_metrics_report(metrics_df, model_cls=None, model_params=None):
         while new_colname in old_df.columns:
             idx += 1
             new_colname = f"{base_name} ({idx})"
-        # append 新欄
         merged_df = old_df.copy()
         merged_df[new_colname] = pd.Series(result_dict)
     else:
         # 第一次寫，建立新表
         merged_df = pd.DataFrame({col_title: result_dict})
 
-    # 儲存
     merged_df.to_csv(csv_path, encoding="utf-8-sig")
 
 def print_trades_report(trades_df, head=None):
